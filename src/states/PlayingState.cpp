@@ -21,20 +21,26 @@ PlayingState::PlayingState(StateMachine* sm) noexcept
 
 void PlayingState::enter(std::shared_ptr<World> _world, std::shared_ptr<Bird> _bird) noexcept
 {
-    world = _world;
-    world->reset(true);
     
+    world = _world;
+
+
     if (_bird == nullptr)
     {
+        world->reset(true);
         bird = std::make_shared<Bird>(
             Settings::VIRTUAL_WIDTH / 2 - Settings::BIRD_WIDTH / 2, Settings::VIRTUAL_HEIGHT / 2 - Settings::BIRD_HEIGHT / 2,
             Settings::BIRD_WIDTH, Settings::BIRD_HEIGHT
         );
     }
-    else
+    else if(_bird == nullptr)
     {
         bird = _bird;
         bird->reset(Settings::VIRTUAL_WIDTH / 2 - Settings::BIRD_WIDTH / 2, Settings::VIRTUAL_HEIGHT / 2 - Settings::BIRD_HEIGHT / 2);
+    }
+    else
+    {
+        bird = _bird;
     }
 }
 
@@ -43,6 +49,11 @@ void PlayingState::handle_inputs(const sf::Event& event) noexcept
     if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
     {
         bird->jump();
+    }
+    
+    if(event.key.code == sf::Keyboard::P)
+    {        
+        state_machine->change_state("pause", world, bird);        
     }
 }
 
@@ -55,7 +66,9 @@ void PlayingState::update(float dt) noexcept
     {
         Settings::sounds["explosion"].play();
         Settings::sounds["hurt"].play();
+        
         state_machine->change_state("count_down", world, bird);
+        
         return;
     }
 

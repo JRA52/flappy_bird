@@ -16,7 +16,7 @@ StateMachine::StateMachine(const std::initializer_list<std::pair<std::string, St
 
 }
 
-void StateMachine::change_state(const std::string& state_name, std::shared_ptr<World> world, std::shared_ptr<Bird> bird) noexcept
+void StateMachine::change_state(const std::string& state_name, std::shared_ptr<World> world , std::shared_ptr<Bird> bird ) noexcept
 {
     auto it = states.find(state_name);
 

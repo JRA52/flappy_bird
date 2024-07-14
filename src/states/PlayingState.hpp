@@ -18,6 +18,7 @@ class PlayingState: public BaseState
 {
 
 public:
+
     PlayingState(StateMachine* sm) noexcept;
 
     void enter(std::shared_ptr<World> _world = nullptr, std::shared_ptr<Bird> _bird = nullptr) noexcept override;
@@ -31,5 +32,5 @@ public:
 private:
     std::shared_ptr<Bird> bird;
     std::shared_ptr<World> world;
-    int score{0};
+    int score;
 };
