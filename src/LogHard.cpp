@@ -1,20 +1,11 @@
-/*
-    ISPPJ1 2024
-    Study Case: Flappy Bird
-
-    Author: Alejandro Mujica
-    alejandro.j.mujic4@gmail.com
-
-    This file contains the definition of the class LogPair.
-*/
 
 #include <Settings.hpp>
 #include <src/LogPair.hpp>
 
 LogPair::LogPair(float _x, float _y) noexcept
     : x{_x}, y{_y},
-      top{x, y + Settings::LOG_HEIGHT + (logHard = rand() % 90), true},
-      bottom{x, y +(logHard*2) + Settings::LOG_HEIGHT , false}
+      top{x, y + Settings::LOG_HEIGHT + (Settings::LOGS_GAP) *2, true},
+      bottom{x, y + Settings::LOGS_GAP + Settings::LOG_HEIGHT, false}
 {
 
 }

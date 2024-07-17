@@ -20,10 +20,16 @@ TitleScreenState::TitleScreenState(StateMachine* sm) noexcept
 }
 
 void TitleScreenState::handle_inputs(const sf::Event& event) noexcept
-{
-    if (event.key.code == sf::Keyboard::Enter)
+{    
+    if (event.key.code == sf::Keyboard::Num1)
     {
-        state_machine->change_state("count_down", world);
+        hardMode = false;
+        state_machine->change_state("count_down", world, nullptr, hardMode);
+    }
+       else if (event.key.code == sf::Keyboard::Num2)
+    {
+        hardMode = true;
+        state_machine->change_state("count_down", world, nullptr, hardMode);
     }
 }
 
@@ -36,5 +42,6 @@ void TitleScreenState::render(sf::RenderTarget& target) const noexcept
 {
     world->render(target);
     render_text(target, Settings::VIRTUAL_WIDTH / 2, Settings::VIRTUAL_HEIGHT / 3, "Flappy Bird", Settings::FLAPPY_TEXT_SIZE, "flappy", sf::Color::White, true);
-    render_text(target, Settings::VIRTUAL_WIDTH / 2, 2 * Settings::VIRTUAL_HEIGHT / 3, "Press Enter to start", Settings::MEDIUM_TEXT_SIZE, "font", sf::Color::White, true);
+    render_text(target, Settings::VIRTUAL_WIDTH / 2,  Settings::VIRTUAL_HEIGHT / 2, "Press 1 to normal cock mode", Settings::MEDIUM_TEXT_SIZE, "font", sf::Color::White, true);
+    render_text(target, Settings::VIRTUAL_WIDTH / 2, 2 * Settings::VIRTUAL_HEIGHT / 3, "Press 2 to hard cock mode", Settings::MEDIUM_TEXT_SIZE, "font", sf::Color::White, true);
 }

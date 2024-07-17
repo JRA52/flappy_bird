@@ -1,13 +1,3 @@
-/*
-    ISPPJ1 2024
-    Study Case: Flappy Bird
-
-    Author: Alejandro Mujica
-    alejandro.j.mujic4@gmail.com
-
-    This file contains the declaration of the class LogPair.
-*/
-
 #pragma once
 
 #include <src/Bird.hpp>
@@ -35,8 +25,6 @@ private:
     float y;
     Log top;
     Log bottom;
-
-    float logHard ;
 
     bool scored{false};
 };

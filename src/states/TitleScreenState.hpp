@@ -18,7 +18,7 @@ class TitleScreenState: public BaseState
 public:
     TitleScreenState(StateMachine* sm) noexcept;
 
-    void handle_inputs(const sf::Event& event) noexcept override;
+    void handle_inputs(const sf::Event& event ) noexcept override;
 
     void update(float dt) noexcept override;
 
@@ -26,4 +26,7 @@ public:
 
 private:
     std::shared_ptr<World> world;
+    bool hardMode;
+    //std::shared_ptr<bool> hardMode ;
+    
 };
