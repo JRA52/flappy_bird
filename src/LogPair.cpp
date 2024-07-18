@@ -13,8 +13,8 @@
 
 LogPair::LogPair(float _x, float _y) noexcept
     : x{_x}, y{_y},
-      top{x, y + Settings::LOG_HEIGHT + (logHard = rand() % 90), true},
-      bottom{x, y +(logHard*2) + Settings::LOG_HEIGHT , false}
+      top{x, y + Settings::LOG_HEIGHT, true},
+      bottom{x, y + Settings::LOGS_GAP + Settings::LOG_HEIGHT, false}
 {
 
 }

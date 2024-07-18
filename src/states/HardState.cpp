@@ -11,12 +11,15 @@ HardState::HardState(StateMachine* sm) noexcept
 
 void HardState::enter(std::shared_ptr<World> _world, std::shared_ptr<Bird> _bird, bool _hardMode) noexcept
 {    
+    hardMode = true;
+    _world->mode(hardMode);
     world = _world;
-    hardMode = _hardMode;
+    world->mode(hardMode);
 
     if (_bird == nullptr)
     {
         world->reset(true);
+
         score = 0;
         bird = std::make_shared<Bird>(
             Settings::VIRTUAL_WIDTH / 2 - Settings::BIRD_WIDTH / 2, Settings::VIRTUAL_HEIGHT / 2 - Settings::BIRD_HEIGHT / 2,
@@ -41,6 +44,15 @@ void HardState::handle_inputs(const sf::Event& event) noexcept
         bird->jump();
     }
     
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A)
+    {
+        bird->moveLeft();    
+    }
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::D)
+    {
+        bird->moveRight();
+    }
+    
     if(event.key.code == sf::Keyboard::P)
     {        
         state_machine->change_state("pause", world, bird, hardMode);        
@@ -57,7 +69,7 @@ void HardState::update(float dt) noexcept
         Settings::sounds["explosion"].play();
         Settings::sounds["hurt"].play();
         
-        state_machine->change_state("count_down", world, bird);
+        state_machine->change_state("count_down", world, bird, hardMode);
         
         return;
     }

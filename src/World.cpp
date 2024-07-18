@@ -22,12 +22,26 @@ World::World(bool _generate_logs) noexcept
 
 void World::reset(bool _generate_logs) noexcept
 {
-    generate_logs = _generate_logs;
-    for (auto log_pair: logs)
+    hardMode = true;
+    if (hardMode == true)
     {
-        log_factory.remove(log_pair);
+        generate_logs = _generate_logs;
+        for (auto logHard_pair: logsHard)
+        {
+            logHard_factory.remove(logHard_pair);
+        }
+        logsHard.clear();
+        
     }
-    logs.clear();
+    else
+    {
+        generate_logs = _generate_logs;
+        for (auto log_pair: logs)
+        {
+            log_factory.remove(log_pair);
+        }
+        logs.clear();
+    }    
 }
 
 bool World::collides(const sf::FloatRect& rect) const noexcept
@@ -63,23 +77,6 @@ bool World::update_scored(const sf::FloatRect& rect) noexcept
 
 void World::update(float dt) noexcept
 {
-    if (generate_logs)
-    {
-        logs_spawn_timer += dt;
-
-        if (logs_spawn_timer >= Settings::TIME_TO_SPAWN_LOGS)
-        {
-            logs_spawn_timer = 0.f;
-
-            std::uniform_int_distribution<int> dist{-20, 20};
-            float y = std::max(-Settings::LOG_HEIGHT + 10, std::min(last_log_y + dist(rng), Settings::VIRTUAL_HEIGHT + 90 - Settings::LOG_HEIGHT));
-
-            last_log_y = y;
-
-            logs.push_back(log_factory.create(Settings::VIRTUAL_WIDTH, y));
-        }
-    }
-
     background_x += -Settings::BACK_SCROLL_SPEED * dt;
 
     if (background_x <= -Settings::BACKGROUND_LOOPING_POINT)
@@ -96,21 +93,79 @@ void World::update(float dt) noexcept
         ground_x = 0;
     }
 
-    ground.setPosition(ground_x, Settings::VIRTUAL_HEIGHT - Settings::GROUND_HEIGHT);
-
-    for (auto it = logs.begin(); it != logs.end(); )
+    if (hardMode)
     {
-        if ((*it)->is_out_of_game())
+        if (generate_logs)
         {
-            auto log_pair = *it;
-            log_factory.remove(log_pair);
-            it = logs.erase(it);
-            
+            logs_spawn_timer += dt;
+
+            if (logs_spawn_timer >= Settings::TIME_TO_SPAWN_LOGS)
+            {
+                std::uniform_real_distribution<float> distTime{-1 , 0};
+                logs_spawn_timer = distTime(rng);
+                std::uniform_int_distribution<int> distHard{0 , 13};
+                std::uniform_int_distribution<int> dist{-20 - static_cast<int> (distHard(rng)) * 2 , 20 + static_cast<int> (distHard(rng)) * 25};
+                float y = std::max(-Settings::LOG_HEIGHT + 10, std::min(last_log_y + dist(rng), Settings::VIRTUAL_HEIGHT + 90 - Settings::LOG_HEIGHT));
+
+                last_log_y = y;
+
+                logs.push_back(log_factory.create(Settings::VIRTUAL_WIDTH, y));
+            }
         }
-        else
+
+        ground.setPosition(ground_x, Settings::VIRTUAL_HEIGHT - Settings::GROUND_HEIGHT);
+
+        for (auto it = logs.begin(); it != logs.end(); )
         {
-            (*it)->update(dt);
-            ++it;
+            if ((*it)->is_out_of_game())
+            {
+                auto log_pair = *it;
+                log_factory.remove(log_pair);
+                it = logs.erase(it);
+                
+            }
+            else
+            {
+                (*it)->update(dt);
+                ++it;
+            }
+        }
+    }
+    if(!hardMode)
+    {
+        if (generate_logs)
+        {
+            logs_spawn_timer += dt;
+
+            if (logs_spawn_timer >= Settings::TIME_TO_SPAWN_LOGS)
+            {
+                logs_spawn_timer = 0.f;
+
+                std::uniform_int_distribution<int> dist{-20, 20};
+                float y = std::max(-Settings::LOG_HEIGHT + 10, std::min(last_log_y + dist(rng), Settings::VIRTUAL_HEIGHT + 90 - Settings::LOG_HEIGHT));
+
+                last_log_y = y;
+
+                logs.push_back(log_factory.create(Settings::VIRTUAL_WIDTH, y));
+            }
+        }
+
+        ground.setPosition(ground_x, Settings::VIRTUAL_HEIGHT - Settings::GROUND_HEIGHT);
+
+        for (auto it = logs.begin(); it != logs.end(); )
+        {
+            if ((*it)->is_out_of_game())
+            {
+                auto log_pair = *it;
+                log_factory.remove(log_pair);
+                it = logs.erase(it);
+                
+            }
+            else
+            {
+                (*it)->update(dt);
+                ++it;
+            }
         }
     }
 }
@@ -125,4 +180,9 @@ void World::render(sf::RenderTarget& target) const noexcept
     }
 
     target.draw(ground);
+}
+
+void World::mode(bool mode)
+{
+    hardMode = mode;
 }

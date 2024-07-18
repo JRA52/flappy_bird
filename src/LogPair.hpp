@@ -36,7 +36,5 @@ private:
     Log top;
     Log bottom;
 
-    float logHard ;
-
     bool scored{false};
 };

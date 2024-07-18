@@ -3,10 +3,10 @@
 #include <src/Bird.hpp>
 #include <src/Log.hpp>
 
-class LogPair
+class LogHard
 {
 public:
-    LogPair(float _x, float _y) noexcept;
+    LogHard(float _x, float _y) noexcept;
 
     bool collides(const sf::FloatRect& rect) const noexcept;
 
@@ -25,6 +25,8 @@ private:
     float y;
     Log top;
     Log bottom;
+
+    float logHard;
 
     bool scored{false};
 };

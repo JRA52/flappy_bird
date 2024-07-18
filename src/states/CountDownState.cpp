@@ -47,13 +47,13 @@ void CountDownState::update(float dt) noexcept
 
         if (counter == 0)
         {
-            if(hardMode == false)
+            if(hardMode)
             {
-                state_machine->change_state("playing", world, bird, hardMode);
+                state_machine->change_state("hard", world, bird, hardMode);
             }
             else 
             {
-                state_machine->change_state("hard", world, bird, hardMode);
+                state_machine->change_state("playing", world, bird, hardMode);    
             }
         }
     }

@@ -12,7 +12,7 @@
 #include <src/Bird.hpp>
 
 Bird::Bird(float _x, float _y, float w, float h) noexcept
-    : x{_x}, y{_y}, width{w}, height{h}, vy{0.f}, sprite{Settings::textures["bird"]}
+    : x{_x}, y{_y}, width{w}, height{h}, vy{0.f}, vx{0.f}, sprite{Settings::textures["bird"]}
 {
     sprite.setPosition(x, y);
 }
@@ -22,6 +22,7 @@ void Bird::reset(float _x, float _y) noexcept
     x = _x;
     y = _y;
     vy = 0.f;
+    vx = 0.f;
     sprite.setPosition(x, y);
 }
 
@@ -38,9 +39,28 @@ void Bird::jump() noexcept
     }
 }
 
+void Bird::moveLeft() noexcept
+{
+    if(!moving)
+    {
+        moving = true;
+        vx = -Settings::MOVE_SPEED - Settings::BACK_SCROLL_SPEED;
+    }
+}
+
+void Bird::moveRight() noexcept
+{
+    if(!moving)
+    {
+        moving = true;
+        vx = Settings::MOVE_SPEED;
+    }
+}
+
 void Bird::update(float dt) noexcept
 {
     vy += Settings::GRAVITY * dt;
+    vx += Settings::MOVE_SPEED * dt;
 
     if (jumping)
     {
@@ -49,8 +69,15 @@ void Bird::update(float dt) noexcept
         jumping = false;
     }
 
+    if(moving)
+    {    
+        x += vx *dt * 3;
+        moving = false;
+    }
+
     y += vy * dt;
     sprite.setPosition(x, y);
+    vx = 0;
 }
 
 void Bird::render(sf::RenderTarget& target) const noexcept

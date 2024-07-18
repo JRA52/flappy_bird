@@ -18,6 +18,7 @@
 
 #include <src/Factory.hpp>
 #include <src/LogPair.hpp>
+#include <src/LogHard.hpp>
 
 class World
 {
@@ -37,6 +38,9 @@ public:
     void update(float dt) noexcept;
 
     void render(sf::RenderTarget& target) const noexcept;
+
+    void mode (bool mode);
+    
 private:
     bool generate_logs;
 
@@ -46,9 +50,13 @@ private:
     float background_x{0.f};
     float ground_x{0.f};
 
+    bool hardMode;
+
     Factory<LogPair> log_factory;
+    Factory<LogHard> logHard_factory;
 
     std::list<std::shared_ptr<LogPair>> logs;
+    std::list<std::shared_ptr<LogHard>> logsHard;
 
     std::mt19937 rng;
 
