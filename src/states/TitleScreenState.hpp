@@ -26,7 +26,5 @@ public:
 
 private:
     std::shared_ptr<World> world;
-    bool hardMode;
-    //std::shared_ptr<bool> hardMode ;
-    
+    bool hardMode;  
 };

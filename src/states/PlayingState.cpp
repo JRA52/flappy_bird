@@ -21,9 +21,9 @@ PlayingState::PlayingState(StateMachine* sm) noexcept
 
 void PlayingState::enter(std::shared_ptr<World> _world, std::shared_ptr<Bird> _bird, bool _hardMode) noexcept
 {  
+    hardMode = false;
+    _world->mode(hardMode);
     world = _world;
-    hardMode = _hardMode;
-    world->mode(false);
 
     if (_bird == nullptr)
     {

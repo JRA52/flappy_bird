@@ -12,6 +12,7 @@ se añadio el modo duro
 se añadio el estado duro 
 se añadio el tronco duro aaahhhh
 se añadio el movimiento del pajaro en x
+Ahora el pause se puede ir a main menu
 
 ### Changed
 In game.cpp line 24 added the new State
@@ -26,5 +27,6 @@ En Title.cpp se añadio el cambio de estado de facil a dificil
 
 ### FIXED
 Se arreglo la pausa para que renderice el mundo correspondiente
+se quitaron vainas comentadas
 
 

@@ -14,7 +14,6 @@ void HardState::enter(std::shared_ptr<World> _world, std::shared_ptr<Bird> _bird
     hardMode = true;
     _world->mode(hardMode);
     world = _world;
-    world->mode(hardMode);
 
     if (_bird == nullptr)
     {

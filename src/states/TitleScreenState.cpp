@@ -24,13 +24,13 @@ void TitleScreenState::handle_inputs(const sf::Event& event) noexcept
     if (event.key.code == sf::Keyboard::Num1)
     {
         hardMode = false;
-        world->mode(false);
+        world->mode(hardMode);
         state_machine->change_state("count_down", world, nullptr, hardMode);
     }
        else if (event.key.code == sf::Keyboard::Num2)
     {
         hardMode = true;
-        world->mode(true);
+        world->mode(hardMode);
         state_machine->change_state("count_down", world, nullptr, hardMode);
     }
 }

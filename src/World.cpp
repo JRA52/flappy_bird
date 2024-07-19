@@ -21,8 +21,7 @@ World::World(bool _generate_logs) noexcept
 }
 
 void World::reset(bool _generate_logs) noexcept
-{
-    hardMode = true;
+{    
     if (hardMode == true)
     {
         generate_logs = _generate_logs;
