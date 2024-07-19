@@ -13,7 +13,7 @@
 
 World::World(bool _generate_logs) noexcept
     : generate_logs{_generate_logs}, background{Settings::textures["background"]}, ground{Settings::textures["ground"]},
-      logs{}, rng{std::default_random_engine{}()}
+      logs{}, logsHard{}, rng{std::default_random_engine{}()}
 {
     ground.setPosition(0, Settings::VIRTUAL_HEIGHT - Settings::GROUND_HEIGHT);
     std::uniform_int_distribution<int> dist(0, 80);
@@ -21,26 +21,29 @@ World::World(bool _generate_logs) noexcept
 }
 
 void World::reset(bool _generate_logs) noexcept
-{    
-    if (hardMode == true)
+{            
+    generate_logs = _generate_logs;
+    if (hardMode)
     {
-        generate_logs = _generate_logs;
         for (auto logHard_pair: logsHard)
         {
             logHard_factory.remove(logHard_pair);
         }
+        for (auto log_pair: logs)
+        {
+            log_factory.remove(log_pair);
+        }      
+        logs.clear();
         logsHard.clear();
-        
     }
     else
     {
-        generate_logs = _generate_logs;
         for (auto log_pair: logs)
         {
             log_factory.remove(log_pair);
         }
         logs.clear();
-    }    
+    }
 }
 
 bool World::collides(const sf::FloatRect& rect) const noexcept
@@ -49,28 +52,64 @@ bool World::collides(const sf::FloatRect& rect) const noexcept
     {
         return true;
     }
-    
-    for (auto log_pair: logs)
-    {
-        if (log_pair->collides(rect))
+
+    if (hardMode)
+    {        
+        for (auto logHard_pair: logsHard)
         {
-            return true;
+            if (logHard_pair->collides(rect))
+            {
+                return true;
+            }
+        }
+        for (auto log_pair: logs)
+        {
+            if (log_pair->collides(rect))
+            {
+                return true;
+            }
         }
     }
-
+    else
+    {        
+        for (auto log_pair: logs)
+        {
+            if (log_pair->collides(rect))
+            {
+                return true;
+            }
+        }
+    }
     return false;
 }
 
 bool World::update_scored(const sf::FloatRect& rect) noexcept
 {
-    for (auto log_pair: logs)
+    if (hardMode)
     {
-        if (log_pair->update_scored(rect))
+        for (auto logHard_pair: logsHard)
+            if (logHard_pair->update_scored(rect))
+            {
+                return true;
+            }
+        for (auto log_pair: logs)
         {
-            return true;
+            if (log_pair->update_scored(rect))
+            {
+                return true;
+            }
         }
     }
-
+    else
+    {
+        for (auto log_pair: logs)
+        {
+            if (log_pair->update_scored(rect))
+            {
+                return true;
+            }
+        }
+    }
     return false;
 }
 
@@ -108,29 +147,48 @@ void World::update(float dt) noexcept
 
                 last_log_y = y;
 
+                logsHard.push_back(logHard_factory.create(Settings::VIRTUAL_WIDTH, y));
                 logs.push_back(log_factory.create(Settings::VIRTUAL_WIDTH, y));
             }
         }
 
         ground.setPosition(ground_x, Settings::VIRTUAL_HEIGHT - Settings::GROUND_HEIGHT);
 
-        for (auto it = logs.begin(); it != logs.end(); )
-        {
-            if ((*it)->is_out_of_game())
+        int aux = RandBetween( 1, 2 );
+        if(aux%2 == 0)
+            for (auto it = logsHard.begin(); it != logsHard.end(); )
             {
-                auto log_pair = *it;
-                log_factory.remove(log_pair);
-                it = logs.erase(it);
-                
+                if ((*it)->is_out_of_game())
+                {
+                    auto logHard_pair = *it;
+                    logHard_factory.remove(logHard_pair);
+                    it = logsHard.erase(it);
+                    
+                }
+                else
+                {
+                    (*it)->update(dt);
+                    ++it;
+                }
             }
-            else
+            
+            for (auto it = logs.begin(); it != logs.end(); )
             {
-                (*it)->update(dt);
-                ++it;
+                if ((*it)->is_out_of_game())
+                {
+                    auto log_pair = *it;
+                    log_factory.remove(log_pair);
+                    it = logs.erase(it);
+                    
+                }
+                else
+                {
+                    (*it)->update(dt);
+                    ++it;
+                }
             }
-        }
     }
-    if(!hardMode)
+    else
     {
         if (generate_logs)
         {
@@ -172,13 +230,27 @@ void World::update(float dt) noexcept
 void World::render(sf::RenderTarget& target) const noexcept
 {
     target.draw(background);
-
-    for (const auto& log_pair: logs)
+    
+    if (hardMode)
     {
-        log_pair->render(target);
+        for (const auto& log_pair: logs)
+        {
+            log_pair->render(target);
+        }
+        for (const auto& logHard_pair: logsHard)
+        {
+            logHard_pair->render(target);
+        }
+    }
+    else
+    {
+        for (const auto& log_pair: logs)
+        {
+            log_pair->render(target);
+        }
     }
 
-    target.draw(ground);
+    target.draw(ground);    
 }
 
 void World::mode(bool mode)

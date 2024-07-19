@@ -21,6 +21,11 @@ public:
 
     void update(float _x) noexcept;
 
+    float getY() const noexcept { return y; }
+
+    void setY(float newY) noexcept { y = newY; }
+
+
     void render(sf::RenderTarget& target) const noexcept;
 
 private:

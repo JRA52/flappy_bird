@@ -24,6 +24,9 @@ En Bird.hpp se añadio la variable de velocidad en x del pajaro
 En Bird.hpp se añadieron los void moveLeft y void moveRight
 En Bird.cpp se implemento la logica del movimiento del pajaro en x
 En Title.cpp se añadio el cambio de estado de facil a dificil
+En LogHard.hpp se añadieron variables para el del movimiento de los troncos
+En LogHard.cpp se implemento la logica del movimiento de los troncos 
+En loghard.cpp se añadio el sonido de choque de los troncos 
 
 ### FIXED
 Se arreglo la pausa para que renderice el mundo correspondiente

@@ -25,8 +25,11 @@ private:
     float y;
     Log top;
     Log bottom;
-
-    float logHard;
-
+    float topVy; 
+    float bottomVy; 
+    float y1;
+    float y2;
+    bool topMovingDown; 
+    bool bottomMovingUp;
     bool scored{false};
 };
