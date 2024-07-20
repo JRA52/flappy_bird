@@ -25,8 +25,8 @@ void LogHard::update(float dt) noexcept
         top.setY(top.getY() + topVy * dt);
         if (top.getY() >= bottom.getY()) 
         {
-            topMovingDown = false;
             Settings::sounds["crash"].play();
+            topMovingDown = false;
             y1 = top.getY();
         }        
     }

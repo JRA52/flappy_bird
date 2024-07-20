@@ -154,7 +154,7 @@ void World::update(float dt) noexcept
 
         ground.setPosition(ground_x, Settings::VIRTUAL_HEIGHT - Settings::GROUND_HEIGHT);
 
-        int aux = RandBetween( 1, 2 );
+        int aux = 0;
         if(aux%2 == 0)
             for (auto it = logsHard.begin(); it != logsHard.end(); )
             {

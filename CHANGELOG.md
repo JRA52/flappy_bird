@@ -8,28 +8,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 added pause function
 added new state machine called PauseState by using P on keyboard
-se añadio el modo duro
-se añadio el estado duro 
-se añadio el tronco duro aaahhhh
-se añadio el movimiento del pajaro en x
-Ahora el pause se puede ir a main menu
+Added Hard Mode
+Added Hard State 
+The hard log was added 
+Added the bird movement in X
+Now the pause can be taken to main menu
 
 ### Changed
 In game.cpp line 24 added the new State
 In PlayingState add the funtion to change PauseState
-En Settings se agrego la constante de velocidad del pajaro
-En Wolrd.hpp se añadio una funcion que me cambia el modo de juego a dificil 
-En World.cpp se cambio el funcionamineto para aplicar el modo dificil 
-En Bird.hpp se añadio la variable de velocidad en x del pajaro
-En Bird.hpp se añadieron los void moveLeft y void moveRight
-En Bird.cpp se implemento la logica del movimiento del pajaro en x
-En Title.cpp se añadio el cambio de estado de facil a dificil
-En LogHard.hpp se añadieron variables para el del movimiento de los troncos
-En LogHard.cpp se implemento la logica del movimiento de los troncos 
-En loghard.cpp se añadio el sonido de choque de los troncos 
+In Settings the bird's speed constant was added
+In Wolrd.hpp a function was added that changes the game mode to hard 
+In World.cpp the functionality was changed to apply the hard mode 
+In Bird.hpp the bird speed variable in x was added
+In Bird.hpp the void moveLeft and void moveRight were added
+In Bird.cpp the logic of the bird's movement in x was implemented
+In Title.cpp the change of status from easy to hard was added
+In LogHard.hpp variables were added for the movement of the logs
+In LogHard.cpp, the logic of the movement of the logs was implemented 
+In loghard.cpp the sound of the logs crashing was added
+In Setting.cpp the shock sound operation was added
 
 ### FIXED
-Se arreglo la pausa para que renderice el mundo correspondiente
-se quitaron vainas comentadas
-
+Fixed the pause for the corresponding world to render
+Commented pods were removed
+The audio of the collision of the logs was accommodated
 
