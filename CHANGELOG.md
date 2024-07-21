@@ -13,6 +13,7 @@ Added Hard State
 The hard log was added 
 Added the bird movement in X
 Now the pause can be taken to main menu
+Now the log and log hard generates randomly
 
 ### Changed
 In game.cpp line 24 added the new State
@@ -28,9 +29,10 @@ In LogHard.hpp variables were added for the movement of the logs
 In LogHard.cpp, the logic of the movement of the logs was implemented 
 In loghard.cpp the sound of the logs crashing was added
 In Setting.cpp the shock sound operation was added
+In wordl.cpp changed de logic of the logs generations
 
 ### FIXED
 Fixed the pause for the corresponding world to render
 Commented pods were removed
 The audio of the collision of the logs was accommodated
-
+Now the logs do not spawn over the under the ground
