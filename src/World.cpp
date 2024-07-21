@@ -139,54 +139,58 @@ void World::update(float dt) noexcept
 
             if (logs_spawn_timer >= Settings::TIME_TO_SPAWN_LOGS)
             {
-                std::uniform_real_distribution<float> distTime{-1 , 0};
+                std::uniform_real_distribution<float> distTime{-1 , -0.5};
                 logs_spawn_timer = distTime(rng);
-                std::uniform_int_distribution<int> distHard{0 , 13};
-                std::uniform_int_distribution<int> dist{-20 - static_cast<int> (distHard(rng)) * 2 , 20 + static_cast<int> (distHard(rng)) * 25};
-                float y = std::max(-Settings::LOG_HEIGHT + 10, std::min(last_log_y + dist(rng), Settings::VIRTUAL_HEIGHT + 90 - Settings::LOG_HEIGHT));
+                std::uniform_int_distribution<int> distHard{0, 13};
+                std::uniform_int_distribution<int> dist{-25 - static_cast<int> (distHard(rng)) * 2 , 20 + static_cast<int> (distHard(rng)) * 15};
+                float y = std::max(-Settings::LOG_HEIGHT + 20, std::min(last_log_y + dist(rng), Settings::VIRTUAL_HEIGHT + 90 - Settings::LOG_HEIGHT));
 
                 last_log_y = y;
 
-                logsHard.push_back(logHard_factory.create(Settings::VIRTUAL_WIDTH, y));
-                logs.push_back(log_factory.create(Settings::VIRTUAL_WIDTH, y));
+                int aux = rand() %3;
+                if(aux%2 == 0)
+                {
+                    logsHard.push_back(logHard_factory.create(Settings::VIRTUAL_WIDTH, y));                    
+                }
+                else
+                {
+                    logs.push_back(log_factory.create(Settings::VIRTUAL_WIDTH, y));
+                }
             }
         }
 
         ground.setPosition(ground_x, Settings::VIRTUAL_HEIGHT - Settings::GROUND_HEIGHT);
 
-        int aux = 0;
-        if(aux%2 == 0)
-            for (auto it = logsHard.begin(); it != logsHard.end(); )
-            {
-                if ((*it)->is_out_of_game())
+        for (auto itHard = logsHard.begin(); itHard != logsHard.end(); )
+            {                
+                if ((*itHard)->is_out_of_game())
                 {
-                    auto logHard_pair = *it;
+                    auto logHard_pair = *itHard;
                     logHard_factory.remove(logHard_pair);
-                    it = logsHard.erase(it);
-                    
+                    itHard = logsHard.erase(itHard);                    
                 }
                 else
                 {
-                    (*it)->update(dt);
-                    ++it;
-                }
+                    (*itHard)->update(dt);
+                    ++itHard;
+                }                
             }
-            
+
             for (auto it = logs.begin(); it != logs.end(); )
             {
-                if ((*it)->is_out_of_game())
-                {
-                    auto log_pair = *it;
-                    log_factory.remove(log_pair);
-                    it = logs.erase(it);
-                    
-                }
-                else
-                {
-                    (*it)->update(dt);
-                    ++it;
-                }
+            if ((*it)->is_out_of_game())
+            {
+                auto log_pair = *it;
+                log_factory.remove(log_pair);
+                it = logs.erase(it);
+                
             }
+            else
+            {
+                (*it)->update(dt);
+                ++it;
+            }
+        }        
     }
     else
     {
