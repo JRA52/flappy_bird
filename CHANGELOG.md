@@ -29,7 +29,8 @@ In LogHard.hpp variables were added for the movement of the logs
 In LogHard.cpp, the logic of the movement of the logs was implemented 
 In loghard.cpp the sound of the logs crashing was added
 In Setting.cpp the shock sound operation was added
-In wordl.cpp changed de logic of the logs generations
+In world.cpp changed de logic of the logs and hard logs generations
+In world .cpp changed the randomization of the hard logs 
 
 ### FIXED
 Fixed the pause for the corresponding world to render

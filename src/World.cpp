@@ -17,7 +17,7 @@ World::World(bool _generate_logs) noexcept
 {
     ground.setPosition(0, Settings::VIRTUAL_HEIGHT - Settings::GROUND_HEIGHT);
     std::uniform_int_distribution<int> dist(0, 80);
-    last_log_y = -Settings::LOG_HEIGHT + dist(rng) + 20;
+    last_log_y = -Settings::LOG_HEIGHT + dist(rng);
 }
 
 void World::reset(bool _generate_logs) noexcept
@@ -148,7 +148,7 @@ void World::update(float dt) noexcept
                 last_log_y = y;
 
                 int aux = rand() %3;
-                if(aux%2 == 0)
+                if(aux == 1)
                 {
                     logsHard.push_back(logHard_factory.create(Settings::VIRTUAL_WIDTH, y));                    
                 }
