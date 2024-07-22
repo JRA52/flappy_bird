@@ -19,7 +19,7 @@ public:
 private:
     std::shared_ptr<World> world;
     std::shared_ptr<Bird> bird;
-    int score {0};
+    int score;
     bool hardMode;
     bool paused;
 };

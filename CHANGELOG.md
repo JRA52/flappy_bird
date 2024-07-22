@@ -37,3 +37,4 @@ Fixed the pause for the corresponding world to render
 Commented pods were removed
 The audio of the collision of the logs was accommodated
 Now the logs do not spawn over the under the ground
+Pause state now do not reset the score
